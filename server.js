@@ -1,27 +1,36 @@
-const express = require('express')  // Importing the express
-const dotenv = require('dotenv')
-const connectDb = require('./config/db')
+const express = require('express');
+const dotenv = require('dotenv');
+const connectDb = require('./config/db');
+const cors = require('cors')
+const morgan = require('morgan')
+
+// Initialize express app first
+const app = express();
+
+// Middleware setup
+app.use(cors())
+app.use(express.json())
+app.use(morgan("dev"))
 
 
-//dot env configuration
-dotenv.config()
+// dotenv configuration
+dotenv.config();
 
-//DB connection
-connectDb()
+// DB connection
+connectDb();
 
-const app = express()     // All the functionality of express is now in app
+// Routes
+app.use("/api/v1/test", require("./routes/testRoutes"));
+app.use("/api/v1/auth", require("./routes/authRoutes"));
 
-// Routing
-
-app.use("/api/v1/test", require("./routes/testRoutes"))
-
+// Test route
 app.get("/", (req, res) => {
-    return res.status(200).send("<h1>Welcome to food server with taste</h1>")  // Fixed: added quotes around HTML string
-})
+    return res.status(200).send("<h1>Welcome to food server with taste</h1>");
+});
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 8080; // Added fallback port
 
-//Listen
-app.listen(PORT, ()=>{
-    console.log("Server is running hello ")
-})
+// Start server
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
