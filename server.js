@@ -1,9 +1,13 @@
 const express = require('express')  // Importing the express
 const dotenv = require('dotenv')
+const connectDb = require('./config/db')
 
 
 //dot env configuration
 dotenv.config()
+
+//DB connection
+connectDb()
 
 const app = express()     // All the functionality of express is now in app
 
