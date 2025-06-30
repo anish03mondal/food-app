@@ -31,6 +31,10 @@ const userSchema = new mongoose.Schema({
     profile: {
         type: String,
         default: 'https://www.freepik.com/free-photos-vectors/single-user',
+    },
+    answer: {
+        type: String,
+        require: [true, 'Answer is required']
     }
 
 },{timstamps: true})
